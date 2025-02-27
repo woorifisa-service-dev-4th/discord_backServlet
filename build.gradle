@@ -38,6 +38,10 @@ dependencies {
 //    // Jakarta EE (Servlet, WebSocket API)
     implementation 'javax.websocket:javax.websocket-api:1.1'
 
+    implementation 'org.slf4j:slf4j-api:2.0.7'      // SLF4J API
+    implementation 'ch.qos.logback:logback-classic:1.4.7'  // SLF4J 구현체 (Logback)
+    implementation 'mysql:mysql-connector-java:8.0.33' // MySQL JDBC 드라이버
+
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
