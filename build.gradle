@@ -22,12 +22,26 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-    compileOnly('jakarta.servlet:jakarta.servlet-api:6.1.0')
+    compileOnly('javax.servlet:javax.servlet-api:4.0.1')
+    // JSP API
+    implementation 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.3'
+    // JSTL 지원
+    implementation 'javax.servlet:jstl:1.2'
+    // HikariCP (DB Connection Pool)
+    implementation group: 'com.zaxxer', name: 'HikariCP', version:'5.0.0'
+    implementation 'com.zaxxer:HikariCP:5.0.1' // HikariCP (DB 커넥션 풀)
+
+
+
+//    // JSP 및 Servlet 지원 (Tomcat 환경에서 실행)
+//    providedCompile("org.apache.tomcat.embed:tomcat-embed-jasper:9.0.100")
+//    // Jakarta EE (Servlet, WebSocket API)
+    implementation 'javax.websocket:javax.websocket-api:1.1'
+
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
-
 test {
     useJUnitPlatform()
 }
