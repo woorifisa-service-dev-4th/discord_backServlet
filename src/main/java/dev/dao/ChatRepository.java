@@ -1,5 +1,7 @@
 package dev.dao;
+import dev.config.ChatSessionManager;
 import dev.config.HikariCPDataSource;
+import dev.config.HikariPoolMonitor;
 import dev.domain.Member;
 import dev.domain.Room;
 
@@ -11,20 +13,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatRepository {
+
+
+
     public static void saveMessage(String content, Long roomId, Long memberId) {
         String sql = "INSERT INTO chatmessage (content, roomId, memberId) VALUES (?, ?, ?)";
 
-        try (Connection conn = HikariCPDataSource.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        // ✅ 유지된 커넥션을 가져오기 (새로운 커넥션을 생성하지 않음)
+        Connection conn = ChatSessionManager.getConnectionForUser(memberId);
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, content);
             pstmt.setLong(2, roomId);
             pstmt.setLong(3, memberId);
             pstmt.executeUpdate();
-
-
+            HikariPoolMonitor.logConnectionPoolStatus();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    // ✅ 사용자가 채팅방을 나갈 때 커넥션 반환
+    public static void userLeftChat(Long memberId) {
+        ChatSessionManager.closeConnection(memberId);
     }
 
     // ✅ 전체 채팅방 목록 조회 메서드 추가
