@@ -11,11 +11,11 @@ CREATE TABLE member (
 );
 
 CREATE TABLE room (
-    id bigint primary key ,
+    id bigint auto_increment primary key ,
     name VARCHAR(20)
 );
 CREATE TABLE chatmessage (
-    id bigint primary key ,
+    id bigint auto_increment primary key ,
     memberId bigint,
     roomId bigint,
     content varchar(20),
