@@ -7,6 +7,6 @@
 <body>
 <h2>채팅 시스템</h2>
 <a href="api/roomList">채팅 참여하기</a>
-<a href="api/roomAdd">채팅 만들기</a>
+<a href="roomAdd.jsp">채팅 만들기</a>
 </body>
 </html>
