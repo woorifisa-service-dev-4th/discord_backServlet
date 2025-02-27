@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet("/api/roomAdd")
 public class AddRoomServlet extends HttpServlet {
@@ -22,13 +23,17 @@ public class AddRoomServlet extends HttpServlet {
 
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("member") == null) {
-            resp.sendRedirect("/login.jsp?error=로그인이 필요합니다.");
+            // ✅ alert 메시지를 띄운 후 로그인 페이지로 이동
+            resp.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = resp.getWriter();
+            out.println("<script>alert('로그인이 필요합니다!'); location.href='/login.jsp';</script>");
+            out.flush();
             return;
         }
 
         String roomName = req.getParameter("roomName");
         if (roomName == null || roomName.trim().isEmpty()) {
-            resp.sendRedirect("/roomList.jsp?error=방 이름을 입력하세요.");
+            resp.sendRedirect("/api/roomList");
             return;
         }
 

@@ -55,7 +55,7 @@ public class WebSocketServer {
         System.err.println("WebSocket Error: " + throwable.getMessage());
     }
 
-    // ✅ 채팅방 입장 시 기존 메시지 불러오기
+
     private void sendPreviousMessages(Session session, String roomId) {
         for (String msg : ChatRepository.getMessagesByRoomId(Long.parseLong(roomId))) {
             try {
@@ -66,7 +66,6 @@ public class WebSocketServer {
         }
     }
 
-    // ✅ 메시지 전송 브로드캐스트
     private void broadcastMessage(String message) {
         for (Session s : chatRooms.get(roomId)) {
             try {

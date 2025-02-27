@@ -45,11 +45,10 @@ public class ChatRepository {
     }
 
     public static List<String> getMessagesByRoomId(Long roomId) {
-        String sql = "SELECT m.name AS member_name, c.content, c.created_at " +
+        String sql = "SELECT m.name AS member_name, c.content " +
                 "FROM chatmessage c " +
                 "JOIN member m ON c.memberId = m.id " +
-                "WHERE c.roomId = ? " +
-                "ORDER BY c.created_at ASC";
+                "WHERE c.roomId = ? ";
 
         List<String> messages = new ArrayList<>();
 
@@ -60,8 +59,7 @@ public class ChatRepository {
                 while (rs.next()) {
                     String memberName = rs.getString("member_name");
                     String content = rs.getString("content");
-                    String createdAt = rs.getTimestamp("created_at").toString();
-                    messages.add("[" + createdAt + "] " + memberName + ": " + content);
+                    messages.add(memberName + ": " + content);
                 }
             }
         } catch (SQLException e) {
