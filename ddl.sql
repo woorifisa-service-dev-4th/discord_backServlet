@@ -11,9 +11,6 @@ CREATE TABLE member (
 );
 
 CREATE TABLE room (
-                      id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                      name VARCHAR(20)
-);
 
 CREATE TABLE chatmessage (
                              id BIGINT PRIMARY KEY AUTO_INCREMENT,
