@@ -17,9 +17,9 @@ public class ChatRepository {
         String sql = "INSERT INTO chatmessage (content, roomId, memberId) VALUES (?, ?, ?)";
 
         // ✅ 유지된 커넥션을 가져오기 (새로운 커넥션을 생성하지 않음)
-        Connection conn = ChatSessionManager.getConnectionForUser(memberId);
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (   Connection conn = HikariCPDataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, content);
             pstmt.setLong(2, roomId);
             pstmt.setLong(3, memberId);
@@ -59,7 +59,8 @@ public class ChatRepository {
         String sql = "SELECT m.name AS member_name, c.content " +
                 "FROM chatmessage c " +
                 "JOIN member m ON c.memberId = m.id " +
-                "WHERE c.roomId = ? ";
+                "WHERE c.roomId = ? " +
+                "ORDER BY c.created_at";
 
         List<String> messages = new ArrayList<>();
 
@@ -70,6 +71,8 @@ public class ChatRepository {
                 while (rs.next()) {
                     String memberName = rs.getString("member_name");
                     String content = rs.getString("content");
+                    System.out.println(memberName);
+                    System.out.println(content);
                     messages.add(memberName + ": " + content);
                 }
             }

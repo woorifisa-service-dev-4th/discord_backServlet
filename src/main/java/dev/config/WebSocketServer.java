@@ -23,7 +23,9 @@ public class WebSocketServer {
         this.roomId = roomId;
         this.memberId = memberId;
         memberName = ChatRepository.getMemberNameById(memberId);
-
+        System.out.println(memberId);
+        System.out.println(roomId);
+        System.out.println("onOpen");
         chatRooms.putIfAbsent(roomId, ConcurrentHashMap.newKeySet()); // 채팅방이 없으면 생성
         chatRooms.get(roomId).add(session); // 채팅방에 세션 추가
 
@@ -37,6 +39,9 @@ public class WebSocketServer {
     @OnMessage
     public void onMessage(String message) {
         // ✅ DB에 저장
+        System.out.println(message);
+        System.out.println(roomId);
+        System.out.println(memberId);
         ChatRepository.saveMessage(message, Long.parseLong(roomId), memberId);
         memberName = ChatRepository.getMemberNameById(memberId);
         // ✅ 메시지 브로드캐스트

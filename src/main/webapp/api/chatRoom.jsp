@@ -7,14 +7,11 @@
         return;
     }
 %>
-<h2>WebSocket Chat (Room ID: <%= roomId %>)</h2>
-<div id="chatLog" style="border: 1px solid black; width: 300px; height: 200px; overflow-y: auto;"></div>
-<input type="text" id="message" placeholder="메시지 입력" onkeyup="handleKeyPress(event)" />
-<button onclick="sendMessage()">전송</button>
-
 <script>
-    let ws = new WebSocket("ws://192.168.0.70:8080/chat/<%= roomId %>/<%= memberId %>");
-
+    let ws = new WebSocket("ws://192.168.0.191:8080/chat/<%= roomId %>/<%= memberId %>");
+    console.log(ws);
+    ws.onopen = () =>{console.log("✅ WebSocket Connected");}
+    ws.onerror = (error) => console.error("❌ WebSocket Error:", error);
     ws.onmessage = function(event) {
         let chatLog = document.getElementById("chatLog");
         chatLog.innerHTML += "<p>" + event.data + "</p>";
@@ -35,3 +32,9 @@
         }
     }
 </script>
+<h2>WebSocket Chat (Room ID: <%= roomId %>)</h2>
+<div id="chatLog" style="border: 1px solid black; width: 300px; height: 200px; overflow-y: auto;"></div>
+<input type="text" id="message" placeholder="메시지 입력" onkeyup="handleKeyPress(event)" />
+<button onclick="sendMessage()">전송</button>
+
+
